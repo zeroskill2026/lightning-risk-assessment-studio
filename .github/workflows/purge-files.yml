@@ -1,0 +1,20 @@
+name: Purge Duplicate Repo Files
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/purge-files.yml'
+permissions:
+  contents: write
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove duplicate files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -rf --ignore-unmatch index.html Lightning_Risk_Assessment_Studio_v2.5.0.html IEC_62305_2_Lightning_Risk_Calculation_Book_HK_IDN_MYS_v2.5.0.xlsx .github/workflows/purge-files.yml
+          git commit -m "chore: purge duplicate files (canonical repo is zeroskill2026/lightning-assessment)" || true
+          git push origin main
